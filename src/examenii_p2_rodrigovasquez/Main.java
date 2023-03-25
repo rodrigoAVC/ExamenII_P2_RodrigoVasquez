@@ -11,6 +11,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
@@ -87,7 +88,7 @@ public class Main extends javax.swing.JFrame {
         jl_equipos = new javax.swing.JList<>();
         jLabel12 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jt_partidos = new javax.swing.JTable();
         jd_tablaPosiciones = new javax.swing.JDialog();
         jPanel4 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
@@ -450,13 +451,18 @@ public class Main extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(76, 255, 255));
 
         jl_equipos.setModel(new DefaultListModel());
+        jl_equipos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jl_equiposMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jl_equipos);
 
         jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("|| EQUIPOS ||");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jt_partidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -482,12 +488,12 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPane3.setViewportView(jt_partidos);
+        if (jt_partidos.getColumnModel().getColumnCount() > 0) {
+            jt_partidos.getColumnModel().getColumn(0).setResizable(false);
+            jt_partidos.getColumnModel().getColumn(1).setResizable(false);
+            jt_partidos.getColumnModel().getColumn(2).setResizable(false);
+            jt_partidos.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -831,6 +837,7 @@ public class Main extends javax.swing.JFrame {
             modelo.addElement(equipo);
         }
         jl_equipos.setModel(modelo);
+        
         abrir(jd_listarEquipos);
     }//GEN-LAST:event_jmi_listarEquiposActionPerformed
 
@@ -865,6 +872,13 @@ public class Main extends javax.swing.JFrame {
         } catch (IOException ex) {
         }
     }//GEN-LAST:event_jmi_guardarBinarioActionPerformed
+
+    private void jl_equiposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_equiposMouseClicked
+        if (evt.getSource() instanceof Equipo) {
+            DefaultTableModel modelo = (DefaultTableModel) jt_partidos.getModel();
+            
+        }
+    }//GEN-LAST:event_jl_equiposMouseClicked
 
     /**
      * @param args the command line arguments
@@ -936,7 +950,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JDialog jd_agregarDeporte;
     private javax.swing.JDialog jd_agregarEquipo;
@@ -952,6 +965,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_guardarBinario;
     private javax.swing.JMenuItem jmi_listarEquipos;
     private javax.swing.JMenuItem jmi_tablaPosiciones;
+    private javax.swing.JTable jt_partidos;
     private javax.swing.JTree jt_torneos;
     private javax.swing.JPopupMenu pp_deporte;
     private javax.swing.JPopupMenu pp_periodo;
