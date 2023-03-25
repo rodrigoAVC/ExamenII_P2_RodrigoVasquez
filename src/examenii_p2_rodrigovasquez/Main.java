@@ -94,6 +94,8 @@ public class Main extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        pp_listar = new javax.swing.JPopupMenu();
+        jmi_listarPartidos = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_torneos = new javax.swing.JTree();
@@ -616,6 +618,14 @@ public class Main extends javax.swing.JFrame {
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        jmi_listarPartidos.setText("Listar Partidos");
+        jmi_listarPartidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_listarPartidosActionPerformed(evt);
+            }
+        });
+        pp_listar.add(jmi_listarPartidos);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(220, 91, 91));
@@ -756,7 +766,7 @@ public class Main extends javax.swing.JFrame {
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) modelo.getRoot();
         cb_equipo1.removeAllItems();
         cb_equipo2.removeAllItems();
-        if (nodo_seleccionado.getChildCount() > 1) {
+        if (equipos.size() > 1) {
             for (Equipo equipo : equipos) {
                 cb_equipo1.addItem(equipo.getNombre());
                 cb_equipo2.addItem(equipo.getNombre());
@@ -816,7 +826,6 @@ public class Main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(jd_agregarPartido, "Tiene que elegir equipos diferentes", "INVALID_TEAMS", JOptionPane.ERROR_MESSAGE);
         } else {
             partidos.add(new Partido(cb_equipo1.getSelectedItem().toString(), cb_equipo2.getSelectedItem().toString(), Integer.parseInt(sp_equipo1.getValue().toString()), Integer.parseInt(sp_equipo2.getValue().toString())));
-            nodo_seleccionado.add(new DefaultMutableTreeNode(new Partido(cb_equipo1.getSelectedItem().toString(), cb_equipo2.getSelectedItem().toString(), Integer.parseInt(sp_equipo1.getValue().toString()), Integer.parseInt(sp_equipo2.getValue().toString()))));
             Torneo torneo_seleccionado = (Torneo) nodo_seleccionado.getUserObject();
             for (Torneo torneo : torneos) {
                 if (torneo.equals(torneo_seleccionado)) {
@@ -837,7 +846,7 @@ public class Main extends javax.swing.JFrame {
             modelo.addElement(equipo);
         }
         jl_equipos.setModel(modelo);
-        
+
         abrir(jd_listarEquipos);
     }//GEN-LAST:event_jmi_listarEquiposActionPerformed
 
@@ -874,11 +883,31 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jmi_guardarBinarioActionPerformed
 
     private void jl_equiposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_equiposMouseClicked
-        if (evt.getSource() instanceof Equipo) {
-            DefaultTableModel modelo = (DefaultTableModel) jt_partidos.getModel();
-            
+        if (evt.isMetaDown()) {
+            System.out.println(jl_equipos.getSelectedValue());
+            for (Equipo equipo : equipos) {
+                if (equipo.getNombre().equals(jl_equipos.getSelectedValue())) {
+                    pp_listar.show(evt.getComponent(), evt.getX(), evt.getY());
+                }
+            }
         }
     }//GEN-LAST:event_jl_equiposMouseClicked
+
+    private void jmi_listarPartidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_listarPartidosActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) jt_partidos.getModel();
+        jt_partidos.removeAll();
+        Object matriz[] = new Object[4];
+        for (Partido partido : partidos) {
+            if (partido.getEquipo1().equals(jl_equipos.getSelectedValue()) || partido.getEquipo2().equals(jl_equipos.getSelectedValue())) {
+                matriz[0] = partido.getEquipo1();
+                matriz[1] = partido.getEquipo2();
+                matriz[2] = partido.getPuntosEquipo1();
+                matriz[3] = partido.getPuntosEquipo2();
+            }
+        }
+        modelo.addRow(matriz);
+        jt_partidos.setModel(modelo);
+    }//GEN-LAST:event_jmi_listarPartidosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -964,10 +993,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_agregarTorneo;
     private javax.swing.JMenuItem jmi_guardarBinario;
     private javax.swing.JMenuItem jmi_listarEquipos;
+    private javax.swing.JMenuItem jmi_listarPartidos;
     private javax.swing.JMenuItem jmi_tablaPosiciones;
     private javax.swing.JTable jt_partidos;
     private javax.swing.JTree jt_torneos;
     private javax.swing.JPopupMenu pp_deporte;
+    private javax.swing.JPopupMenu pp_listar;
     private javax.swing.JPopupMenu pp_periodo;
     private javax.swing.JPopupMenu pp_torneo;
     private javax.swing.JSpinner sp_equipo1;
